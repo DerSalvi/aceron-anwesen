@@ -1,0 +1,122 @@
+.aceron-anwesen .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: #19150f;
+  color: #e8dcc0;
+}
+
+.aceron-anwesen .anwesen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 13px;
+}
+
+.aceron-anwesen .kein-haus {
+  margin: auto;
+  text-align: center;
+}
+
+/* Kopfleiste */
+.aceron-anwesen .kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 8px 12px;
+  background: #261f15;
+  border-bottom: 1px solid #4a3d28;
+}
+.aceron-anwesen .vorrat { display: flex; flex-wrap: wrap; gap: 6px; }
+.aceron-anwesen .vorrat-eintrag {
+  display: flex; align-items: baseline; gap: 4px;
+  padding: 2px 8px; border-radius: 10px;
+  background: #151009; border: 1px solid #3d321f;
+}
+.aceron-anwesen .vorrat-eintrag.voll { border-color: #c0603a; }
+.aceron-anwesen .vorrat-eintrag .menge { font-weight: bold; color: #f4e7c4; }
+.aceron-anwesen .max { color: #8f8368; font-size: 11px; }
+.aceron-anwesen .arbeiter { margin-left: auto; }
+.aceron-anwesen .knoepfe { display: flex; gap: 6px; }
+.aceron-anwesen .knoepfe button { width: auto; line-height: 1.6; padding: 0 10px; }
+
+/* Etagen-Reiter */
+.aceron-anwesen .etagen { display: flex; gap: 2px; padding: 6px 12px 0; background: #1f190f; }
+.aceron-anwesen .etage {
+  padding: 4px 14px; border-radius: 6px 6px 0 0;
+  background: #2c2418; color: #bfae8a; cursor: pointer;
+}
+.aceron-anwesen .etage.aktiv { background: #3b2f1c; color: #f4e7c4; font-weight: bold; }
+
+/* Hauptbereich */
+.aceron-anwesen .inhalt { display: flex; flex: 1; min-height: 0; background: #3b2f1c; }
+.aceron-anwesen .karte {
+  flex: 1 1 60%; min-width: 0; padding: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #2d2619, #17120b);
+}
+.aceron-anwesen .grundriss { width: 100%; height: 100%; max-height: 100%; }
+.aceron-anwesen .seitenleiste {
+  flex: 0 0 340px; overflow-y: auto; padding: 10px 12px;
+  background: #211b12; border-left: 1px solid #4a3d28;
+}
+
+/* Räume im Grundriss */
+.aceron-anwesen .raum { cursor: pointer; }
+.aceron-anwesen .raum .flaeche { fill: #2a241a; stroke: #6b5a3a; stroke-width: 3; }
+.aceron-anwesen .raum.verfallen .flaeche { fill: #3a332a; stroke: #4d4234; stroke-dasharray: 10 5; }
+.aceron-anwesen .raum.leer .flaeche { fill: #57492f; stroke: #8a7650; }
+.aceron-anwesen .raum.genutzt .flaeche { fill: var(--nutzung); stroke: #e0cfa0; fill-opacity: 0.8; }
+.aceron-anwesen .raum.baustelle .flaeche { fill: #2b2416; stroke: #d9a520; }
+.aceron-anwesen .raum:hover .flaeche { stroke: #f4e7c4; }
+.aceron-anwesen .raum.gewaehlt .flaeche { stroke: #ffd24a; stroke-width: 5; }
+.aceron-anwesen .raum .muster { pointer-events: none; opacity: 0.6; }
+.aceron-anwesen .raum text { pointer-events: none; fill: #f4e7c4; paint-order: stroke; stroke: #000; stroke-opacity: 0.55; stroke-width: 3px; }
+.aceron-anwesen .raum-icon { font-size: 30px; stroke: none !important; }
+.aceron-anwesen .raum-name { font-size: 14px; font-weight: bold; }
+.aceron-anwesen .raum-status { font-size: 12px; }
+.aceron-anwesen .puffer { font-size: 20px; stroke: none !important; }
+.aceron-anwesen .pip { fill: #1a140b; stroke: #e0cfa0; stroke-width: 1.5; }
+.aceron-anwesen .pip.an { fill: #ffd24a; }
+.aceron-anwesen .balken-hg { fill: #120e08; stroke: #6b5a3a; }
+.aceron-anwesen .balken { fill: #d9a520; }
+.aceron-anwesen .deko { pointer-events: none; }
+.aceron-anwesen .deko rect { fill: #6a4a2c; stroke: #2a1d10; stroke-width: 1.5; }
+.aceron-anwesen .deko.kamin rect { fill: #4a3a30; }
+.aceron-anwesen .deko text { font-size: 13px; }
+
+/* Seitenleiste */
+.aceron-anwesen .seitenleiste h2 { margin: 0 0 2px; border: none; font-size: 18px; color: #f4e7c4; }
+.aceron-anwesen .seitenleiste h3 { margin: 0 0 6px; border: none; font-size: 14px; color: #e0cfa0; }
+.aceron-anwesen .stift { margin-left: 6px; font-size: 12px; color: #8f8368; cursor: pointer; }
+.aceron-anwesen .meta, .aceron-anwesen .beschr { color: #a89a7c; margin: 0 0 6px; }
+.aceron-anwesen .info { margin: 2px 0 6px; color: #cdbf9f; }
+.aceron-anwesen .grund { margin: 4px 0 0; color: #d9805a; font-size: 12px; }
+.aceron-anwesen .hinweis { color: #a89a7c; margin-top: 20px; }
+.aceron-anwesen .block { margin: 10px 0; padding: 10px; border: 1px solid #3d321f; border-radius: 6px; background: #1a150d; }
+.aceron-anwesen .block.gm { border-style: dashed; }
+.aceron-anwesen .block button, .aceron-anwesen .seitenleiste > button { margin-top: 4px; }
+.aceron-anwesen .leise { opacity: 0.7; }
+
+.aceron-anwesen .nutzung {
+  margin: 8px 0; padding: 8px; border-radius: 6px;
+  border: 1px solid #3d321f; border-left: 5px solid var(--nutzung); background: #211b12;
+}
+.aceron-anwesen .nutzung-icon { font-size: 18px; }
+
+.aceron-anwesen .kosten-liste { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+.aceron-anwesen .kosten { padding: 1px 7px; border-radius: 8px; background: #120e08; border: 1px solid #3d321f; }
+.aceron-anwesen .kosten.fehlt { border-color: #c0603a; color: #e0906a; }
+
+.aceron-anwesen .fortschritt { height: 12px; border-radius: 6px; background: #120e08; border: 1px solid #6b5a3a; overflow: hidden; }
+.aceron-anwesen .fortschritt-fuellung { height: 100%; background: #d9a520; }
+
+/* Protokoll */
+.aceron-anwesen .protokoll {
+  max-height: 120px; overflow-y: auto; padding: 6px 12px;
+  background: #15110a; border-top: 1px solid #4a3d28;
+}
+.aceron-anwesen .protokoll h3 { margin: 0 0 2px; border: none; font-size: 12px; color: #8f8368; }
+.aceron-anwesen .protokoll ul { margin: 0; padding: 0; list-style: none; font-size: 12px; }
+.aceron-anwesen .protokoll .zeit { color: #8f8368; }
+.aceron-anwesen .protokoll .wer { color: #e0cfa0; font-weight: bold; }

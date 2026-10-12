@@ -1,0 +1,181 @@
+<div class="anwesen">
+  {{#if keinHaus}}
+  <div class="kein-haus">
+    <p>Das Anwesen wurde noch nicht angelegt.</p>
+    {{#if istGM}}
+    <button type="button" data-action="hausAnlegen">Anwesen jetzt anlegen</button>
+    {{else}}
+    <p>Bitte den Spielleiter, es anzulegen.</p>
+    {{/if}}
+  </div>
+  {{else}}
+
+  <header class="kopf">
+    <div class="vorrat">
+      {{#each vorrat}}
+      <div class="vorrat-eintrag {{#if voll}}voll{{/if}}" title="{{name}} (Lager: {{max}})">
+        <span class="icon">{{icon}}</span>
+        <span class="menge">{{menge}}</span>
+        <span class="max">/ {{max}}</span>
+      </div>
+      {{/each}}
+    </div>
+    <div class="arbeiter" title="Freie Arbeiter / Arbeiter gesamt · Schlafplätze">
+      👷 {{arbeiter.frei}} frei / {{arbeiter.gesamt}} <span class="max">· Plätze {{arbeiter.max}}</span>
+    </div>
+    <div class="knoepfe">
+      <button type="button" data-action="alleEinsammeln" title="Erträge aller Räume ins Lager holen">💰 Alles einsammeln</button>
+      <button type="button" data-action="einlagern" title="Mitgebrachtes Material eintragen">📥 Einlagern</button>
+      <button type="button" data-action="anwerben" title="Neuer Arbeiter für {{arbeiter.kosten}} Gold">👷 Anwerben ({{arbeiter.kosten}} 🪙)</button>
+    </div>
+  </header>
+
+  <nav class="etagen">
+    {{#each etagen}}
+    <a class="etage {{#if aktiv}}aktiv{{/if}}" data-action="waehleEtage" data-etage="{{id}}">{{name}}</a>
+    {{/each}}
+  </nav>
+
+  <div class="inhalt">
+    <section class="karte">
+      <svg class="grundriss" viewBox="{{karte.viewBox}}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="muster-verfall" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <rect width="16" height="16" fill="#3a332a"/>
+            <line x1="0" y1="0" x2="0" y2="16" stroke="#211c16" stroke-width="6"/>
+          </pattern>
+          <pattern id="muster-baustelle" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="18" height="18" fill="#2b2416"/>
+            <line x1="0" y1="0" x2="0" y2="18" stroke="#d9a520" stroke-width="7" opacity="0.4"/>
+          </pattern>
+        </defs>
+
+        {{#each karte.raeume}}
+        <g class="raum {{klasse}} {{#if gewaehlt}}gewaehlt{{/if}}" data-action="waehleRaum" data-raum-id="{{id}}">
+          <rect class="flaeche" x="{{x}}" y="{{y}}" width="{{w}}" height="{{h}}" rx="6" style="--nutzung: {{farbe}}"/>
+          {{#if verfall}}<rect class="muster" x="{{x}}" y="{{y}}" width="{{w}}" height="{{h}}" rx="6" fill="url(#muster-verfall)"/>{{/if}}
+          {{#if baustelle}}<rect class="muster" x="{{x}}" y="{{y}}" width="{{w}}" height="{{h}}" rx="6" fill="url(#muster-baustelle)"/>{{/if}}
+          <text class="raum-icon" x="{{cx}}" y="{{iconY}}" text-anchor="middle">{{icon}}</text>
+          <text class="raum-name" x="{{cx}}" y="{{nameY}}" text-anchor="middle">{{name}}</text>
+          <text class="raum-status" x="{{cx}}" y="{{statusY}}" text-anchor="middle">{{status}}</text>
+          {{#each pips}}<circle class="pip {{#if an}}an{{/if}}" cx="{{x}}" cy="{{y}}" r="5"/>{{/each}}
+          {{#if balken}}
+          <rect class="balken-hg" x="{{balkenX}}" y="{{balkenY}}" width="{{balkenMax}}" height="7" rx="3"/>
+          <rect class="balken" x="{{balkenX}}" y="{{balkenY}}" width="{{balkenBreite}}" height="7" rx="3"/>
+          {{/if}}
+          {{#if puffer}}<text class="puffer" x="{{pufferX}}" y="{{pufferY}}" text-anchor="middle">💰</text>{{/if}}
+        </g>
+        {{/each}}
+
+        {{#each karte.deko}}
+        <g class="deko {{typ}}">
+          <rect x="{{x}}" y="{{y}}" width="{{w}}" height="{{h}}" rx="3"/>
+          {{#if text}}<text x="{{tx}}" y="{{ty}}" text-anchor="middle">{{text}}</text>{{/if}}
+        </g>
+        {{/each}}
+      </svg>
+    </section>
+
+    <aside class="seitenleiste">
+      {{#if tafel}}
+      {{#with tafel}}
+      <h2>
+        {{name}}
+        <a class="stift" data-action="umbenennen" title="Umbenennen"><i class="fa-solid fa-pen"></i></a>
+      </h2>
+      <p class="meta">{{groesseName}} · {{ortText}} · {{zustandText}}</p>
+
+      {{#if istBaustelle}}
+      <div class="block">
+        <h3>Im Bau: {{auftrag.was}}</h3>
+        <div class="fortschritt"><div class="fortschritt-fuellung" style="width: {{auftrag.prozent}}%"></div></div>
+        <p class="info">{{auftrag.prozent}} % · noch {{auftrag.rest}} · 👷 {{auftrag.arbeiter}} Arbeiter gebunden</p>
+        <button type="button" data-action="abbrechen">Auftrag abbrechen</button>
+      </div>
+      {{/if}}
+
+      {{#if istVerfallen}}
+      <div class="block">
+        <h3>Instandsetzung</h3>
+        <p>Der Raum ist verfallen und unbrauchbar. Er muss zuerst repariert werden.</p>
+        <div class="kosten-liste">{{#each instand.kosten}}<span class="kosten {{#unless ok}}fehlt{{/unless}}" title="{{name}}">{{icon}} {{menge}}</span>{{/each}}</div>
+        <p class="info">⏱ {{instand.dauerText}} · 👷 {{instand.arbeiter}} Arbeiter</p>
+        <button type="button" data-action="instandsetzen" {{#unless instand.moeglich}}disabled{{/unless}} title="{{instand.grund}}">Instand setzen</button>
+        {{#unless instand.moeglich}}<p class="grund">{{instand.grund}}</p>{{/unless}}
+      </div>
+      {{/if}}
+
+      {{#if istLeer}}
+      <div class="block">
+        <h3>Wofür soll der Raum genutzt werden?</h3>
+        {{#each nutzungen}}
+        <div class="nutzung" style="--nutzung: {{farbe}}">
+          <div class="nutzung-kopf"><span class="nutzung-icon">{{icon}}</span> <strong>{{name}}</strong></div>
+          <p class="beschr">{{beschreibung}}</p>
+          {{#if ertrag}}<p class="info">{{ertrag}}</p>{{/if}}
+          {{#if extra}}<p class="info">{{extra}}</p>{{/if}}
+          <div class="kosten-liste">{{#each kosten}}<span class="kosten {{#unless ok}}fehlt{{/unless}}" title="{{name}}">{{icon}} {{menge}}</span>{{/each}}</div>
+          <p class="info">⏱ {{dauerText}} · 👷 {{arbeiter}} Arbeiter</p>
+          <button type="button" data-action="bauen" data-nutzung="{{id}}" {{#unless moeglich}}disabled{{/unless}} title="{{grund}}">Bauen</button>
+          {{#unless moeglich}}<p class="grund">{{grund}}</p>{{/unless}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      {{#if istGenutzt}}
+      <div class="block">
+        <h3>{{aktuell.icon}} {{aktuell.name}} · Stufe {{aktuell.stufe}} von {{aktuell.max}}</h3>
+        <p class="beschr">{{aktuell.beschreibung}}</p>
+        {{#if aktuell.ertrag}}<p class="info">Ertrag: {{aktuell.ertrag}}</p>{{/if}}
+        {{#if aktuell.extra}}<p class="info">{{aktuell.extra}}</p>{{/if}}
+        {{#if aktuell.hatPuffer}}
+        <div class="kosten-liste">{{#each aktuell.puffer}}<span class="kosten" title="{{name}}">{{icon}} {{menge}}</span>{{/each}}</div>
+        <button type="button" data-action="einsammeln">💰 Einsammeln</button>
+        {{else}}
+        <p class="info">Noch nichts angesammelt. Der Ertrag füllt sich bis zu {{aktuell.pufferStunden}} Std. lang.</p>
+        {{/if}}
+      </div>
+
+      {{#if ausbau}}
+      <div class="block">
+        <h3>Ausbau auf Stufe {{ausbau.stufe}}</h3>
+        {{#if ausbau.ertrag}}<p class="info">Dann: {{ausbau.ertrag}}</p>{{/if}}
+        {{#if ausbau.extra}}<p class="info">{{ausbau.extra}}</p>{{/if}}
+        <div class="kosten-liste">{{#each ausbau.kosten}}<span class="kosten {{#unless ok}}fehlt{{/unless}}" title="{{name}}">{{icon}} {{menge}}</span>{{/each}}</div>
+        <p class="info">⏱ {{ausbau.dauerText}} · 👷 {{ausbau.arbeiter}} Arbeiter</p>
+        <button type="button" data-action="ausbauen" {{#unless ausbau.moeglich}}disabled{{/unless}} title="{{ausbau.grund}}">Ausbauen</button>
+        {{#unless ausbau.moeglich}}<p class="grund">{{ausbau.grund}}</p>{{/unless}}
+      </div>
+      {{else}}
+      <p class="info">Die höchste Ausbaustufe ist erreicht.</p>
+      {{/if}}
+
+      <button type="button" class="leise" data-action="aufgeben">Nutzung aufgeben</button>
+      {{/if}}
+      {{/with}}
+      {{else}}
+      <p class="hinweis">Klicke auf einen Raum im Grundriss, um Werte und Möglichkeiten zu sehen.</p>
+      {{/if}}
+
+      {{#if istGM}}
+      <div class="block gm">
+        <h3>Spielleiter</h3>
+        <button type="button" data-action="gmAnpassen">Vorräte setzen</button>
+        <button type="button" data-action="gmFertig">Alle Aufträge beenden</button>
+        <button type="button" data-action="gmZuruecksetzen">Zurücksetzen</button>
+      </div>
+      {{/if}}
+    </aside>
+  </div>
+
+  <footer class="protokoll">
+    <h3>Protokoll</h3>
+    <ul>
+      {{#each protokoll}}
+      <li><span class="zeit">{{zeit}}</span> <span class="wer">{{wer}}</span> {{text}}</li>
+      {{/each}}
+    </ul>
+  </footer>
+  {{/if}}
+</div>
