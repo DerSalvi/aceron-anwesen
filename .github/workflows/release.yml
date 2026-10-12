@@ -1,30 +1,33 @@
 name: Release
 
-# Wird bei jedem Tag der Form v1.2.3 ausgelöst und baut das Installationspaket für Foundry.
+# Startet, sobald auf GitHub ein Release veröffentlicht wird (Releases → "Draft a new release",
+# Tag z. B. v0.1.0 anlegen, "Publish release"). Der Workflow baut das Installationspaket
+# für Foundry und hängt module.json und module.zip an dieses Release.
 on:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
 
 permissions:
   contents: write
 
 jobs:
-  release:
+  paket:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Version und Download-Adresse eintragen
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          DOWNLOAD="https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/module.zip"
+          TAG="${{ github.event.release.tag_name }}"
+          VERSION="${TAG#v}"
+          DOWNLOAD="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/module.zip"
           jq --arg v "$VERSION" --arg d "$DOWNLOAD" '.version = $v | .download = $d' module.json > module.tmp
           mv module.tmp module.json
 
       - name: Paket bauen
         run: zip -r module.zip module.json README.md scripts templates styles
 
-      - name: Release erstellen
+      - name: An das Release anhängen
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" module.json module.zip --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release upload "${{ github.event.release.tag_name }}" module.json module.zip --clobber
