@@ -8,5 +8,8 @@
     "verified": "13"
   },
   "esmodules": ["scripts/main.mjs"],
-  "styles": ["styles/anwesen.css"]
+  "styles": ["styles/anwesen.css"],
+  "url": "https://github.com/DerSalvi/aceron-anwesen",
+  "manifest": "https://github.com/DerSalvi/aceron-anwesen/releases/latest/download/module.json",
+  "download": "https://github.com/DerSalvi/aceron-anwesen/releases/download/v0.1.0/module.zip"
 }
