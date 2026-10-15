@@ -2,7 +2,7 @@
   "id": "aceron-anwesen",
   "title": "Aceron – Das Anwesen",
   "description": "Langzeit-Aufbauspiel für das Haus der Gruppe: Räume instand setzen, nutzen und ausbauen, Arbeiter anwerben und passive Einnahmen sammeln – in Echtzeit, auch zwischen den Sessions.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
