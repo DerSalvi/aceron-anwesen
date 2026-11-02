@@ -178,3 +178,10 @@
 .aceron-anwesen .protokoll li { padding: 2px 0; }
 .aceron-anwesen .protokoll .zeit { color: var(--aw-leise); }
 .aceron-anwesen .protokoll .wer { color: var(--aw-akzent-text); font-weight: 600; }
+
+/* Willkommensfenster */
+.aceron-willkommen { max-height: 60vh; overflow-y: auto; padding-right: 6px; }
+.aceron-willkommen h3 { margin: 14px 0 4px; border-bottom: 1px solid rgba(127,127,127,.35); }
+.aceron-willkommen ul { margin: 6px 0 0 18px; padding: 0; }
+.aceron-willkommen li { margin-bottom: 6px; }
+.aceron-willkommen .hinweis { margin-top: 14px; opacity: .75; font-size: .9em; }

@@ -7,7 +7,7 @@
     "minimum": "13",
     "verified": "13"
   },
-  "esmodules": ["scripts/main.mjs"],
+  "esmodules": ["scripts/main.mjs", "scripts/willkommen.mjs"],
   "styles": ["styles/anwesen.css"],
   "url": "https://github.com/DerSalvi/aceron-anwesen",
   "manifest": "https://github.com/DerSalvi/aceron-anwesen/releases/latest/download/module.json",
