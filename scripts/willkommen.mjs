@@ -104,8 +104,22 @@ Hooks.once("ready", () => {
   zeigeAnleitung();
 });
 
+// Chat-Befehl /anleitung. Foundry v14 hat dafür eine Befehlsliste (ChatLog.CHAT_COMMANDS);
+// das Chatfeld liefert dort HTML ("<p>/anleitung</p>"), deshalb nie den Rohtext vergleichen.
+const BEFEHL = /^\/anleitung\s*$/i;
+const nurText = (html) => String(html ?? "").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+
+Hooks.once("init", () => {
+  const ChatLog = foundry.applications?.sidebar?.tabs?.ChatLog;
+  if (ChatLog?.CHAT_COMMANDS) {
+    ChatLog.CHAT_COMMANDS.anleitung = { rgx: BEFEHL, fn: () => { zeigeAnleitung(); return false; } };
+  }
+});
+
+// Rückfall für ältere Foundry-Versionen ohne CHAT_COMMANDS
 Hooks.on("chatMessage", (_log, text) => {
-  if (text.trim() !== "/anleitung") return;
+  if (foundry.applications?.sidebar?.tabs?.ChatLog?.CHAT_COMMANDS?.anleitung) return;
+  if (!BEFEHL.test(nurText(text))) return;
   zeigeAnleitung();
   return false;
 });
