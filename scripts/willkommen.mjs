@@ -4,7 +4,7 @@
 
 import { MODUL_ID } from "./daten.mjs";
 
-const ANLEITUNG_VERSION = 3;
+const ANLEITUNG_VERSION = 4;
 
 // Abschnitte der Anleitung. Ein Abschnitt ohne Punkte (leere Liste) wird nicht angezeigt.
 const ABSCHNITTE = [
@@ -49,7 +49,7 @@ const ABSCHNITTE = [
       "<strong>Wer liest mit:</strong> Für jede Notiz legt ihr fest, wer sie sieht: alle, nur ihr oder ausgewählte Mitspieler. Was eure Figur heimlich erfährt, bleibt so auch geheim.",
       "<strong>Von anderen:</strong> Im Reiter „Von anderen“ seht ihr, was Mitspieler mit euch geteilt haben.",
       "<strong>Nachrichten der Spielleitung:</strong> Schickt euch die Spielleitung eine Nachricht, erscheint oben der Hinweis „Du hast eine Nachricht von der Spielleitung“. Ein Klick darauf öffnet sie. Mit „Ins Journal speichern“ wählt ihr, wohin sie kommt: als Aceron-Notiz (kommt in die Wissensdatenbank), ins eigene Journal „Briefe & Botschaften“ oder in ein Journal eurer Wahl, auch mehreres zugleich. „Später“ und „Verwerfen“ schließen sie nur.",
-      "<strong>Posteingang:</strong> Alle Nachrichten liegen im Notizfenster im Reiter „Posteingang“. Von dort könnt ihr sie jederzeit erneut lesen und speichern.",
+      "<strong>Weggeklickt? Kein Problem:</strong> Keine Nachricht geht verloren, egal ob ihr den Hinweis mit ✕ geschlossen oder „Später“ bzw. „Verwerfen“ gewählt habt. Alle liegen im <strong>Posteingang</strong>: Notizfenster öffnen (Knopf „Aceron-Notizen“ im Notizbuch oder <kbd>Alt</kbd>+<kbd>N</kbd>), oben den Reiter „Posteingang“ wählen und die Nachricht anklicken. Eine Zahl am Reiter zeigt, wie viele noch ungeöffnet sind. Von dort könnt ihr sie jederzeit erneut lesen und speichern.",
       "<strong>Gemeinsames Wissen:</strong> Im Notizbuch unter „Aceron · Gemeinsames Wissen“ steht alles, was die ganze Gruppe weiß: Orte, Personen, Fraktionen, Quests. Es wird nach jeder Session ergänzt.",
       "<strong>Privates Wissen:</strong> Unter „Aceron · Privates Wissen“ hat jede Figur ein eigenes Journal mit dem, was nur sie weiß. Das sieht außer euch nur die Spielleitung.",
       "<strong>Auf der Karte:</strong> In den Ortsszenen führt die Nadel in der Mitte direkt zum Eintrag des Ortes."
